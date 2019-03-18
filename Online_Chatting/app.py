@@ -75,6 +75,7 @@ class LogOutHandler(BaseHandler):
                 record["clients_hst"]["handlers"].remove(c)
                 break
 
+        # 清除所有记录,然后重定向
         self.clear_all_cookies()
         self.redirect("/")
 
@@ -102,7 +103,7 @@ class QuitRoomHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         roomName = self.get_argument("roomName")
-        #currentUser = tornado.escape.xhtml_escape(self.current_user)
+        #currentUser = tornado.escape.xhtml_escape(self.current_user)       #舍弃这种方式,因为cookie会被后来登录的用户覆盖
         currentUser = self.get_argument("userName")
         if currentUser in record["rooms"][roomName]["members"]:
             record["rooms"][roomName]["members"].remove(currentUser)
@@ -122,18 +123,13 @@ class DeleteRoomHandler(BaseHandler):
             self.redirect("/")
             return
         
-
-
         record["rooms"].pop(roomName)
         self.redirect("/")
 
 # 加入房间
 class JumpHandler(BaseHandler):
     def get(self):
-        # currentUser = tornado.escape.xhtml_escape(self.current_user)
         currentUser = self.get_argument("userName")
-        # userNums = len(record["clients_hst"]["clients"])
-        # userNames = record["clients_hst"]["clients"]
         currentRoomName = self.get_argument("roomName")    #更新当前房间名称
 
         if currentUser not in record["rooms"][currentRoomName]["members"]:    #新进成员加入计数
@@ -146,18 +142,6 @@ class JumpHandler(BaseHandler):
         
 
 def updatelist(roomName):           #更新当前房间用户,并传入前端处理
-    # total = len(record["clients_hst"]["handlers"])
-    # userlist = []
-    # for c in record["clients_hst"]["handlers"]:
-    #     userlist.append(c.userName)
-    #     # pass
-    # msg = {
-    # 'type': 'list',
-    # 'total': total,
-    # 'userlist': userlist,
-    # }
-    # return msg
-
     total = len(record["rooms"][roomName]["members"])
     userList = list(record["rooms"][roomName]["members"])
     msg = {
@@ -198,6 +182,11 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
                     'userName': msg[0],
                     'message': msg[1]
                 }))
+            self.write_message(json.dumps({
+                'type': 'sys',
+                'userName': 'SYSTEM',
+                'message': 'Above is the history record'
+            }))
         
 
     def sendToAllInside(self, message):     # 参数为dict格式
@@ -238,13 +227,11 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
             
             # 给当前房间的每个用户发送信息
             for client in record["clients_hst"]["handlers"]:
-                # print("\n\n",client.userName)
-                # print(record["rooms"][self.currentRoomName]["members"],"\n\n\n")
                 # 如果在线用户也在当前房间,则发送消息给该用户
                 if client.userName in record["rooms"][self.currentRoomName]["members"]:
                     client.write_message(message)
 
-                    # 记录历史消息
+                    # 按顺序记录历史消息
                     if client.userName in record["clients_hst"]["history"].keys():
                         record["clients_hst"]["history"][client.userName]["Messages"].append((msg["userName"],msg["message"]))
                     else:
@@ -256,10 +243,6 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
             
         else:
             print("Message Error.")
-
-    def recallHistory(self):
-        pass
-        
 
 import uuid
 import base64

@@ -16,8 +16,6 @@ function init() {
   var messageContainer = document.getElementById("chatbox");
   var userListContainer = document.getElementById("userlist");
   if("WebSocket" in window) {
-    // messageContainer.appendChild(createChatEntry("SYSTEM", "WebSocket is supported by your browser!!!"));
-    // messageContainer.appendChild(createChatEntry("SYSTEM", "Pick a userName and start sending out messages."));
     openWS(messageContainer, userListContainer);
     reg();
   }

@@ -52,14 +52,7 @@
       <hr class="my-4">
       <p>Creater: {{ item[1]["creater"] }}</p>
       <p>Members: {% for m in item[1]["members"] %} {{ m }} &nbsp; {% end %}</p>
-      <!-- {% if name not in item[1]["members"] %} -->
         <a class="btn btn-lg btn-primary" href="/rooms?roomName={{item[0]}}&userName={{name}}" role="button">Join Room</a>
-
-       
-      <!-- {% else %}
-        <a class="btn btn-lg btn-primary" href="/rooms?roomName={{item[0]}}" role="button">Join Room</a>
-        
-      {% end %} -->
       {% if name == item[1]["creater"] %}
         <a class="btn btn-danger btn-lg" href="/deleteroom?roomName={{item[0]}}" role="button">Delete Room</a>
       {% end %}
@@ -83,7 +76,6 @@
                 <div class="form-group">
                   <label >Room Name</label>
                   <input type="text" class="form-control" id="roomName"  name="roomName" placeholder="Enter room name">
-                  <!-- <small id="emailHelp" class="form-text text-muted">请使用唯一的名称，和别的聊天室重名将会覆盖</small> -->
                 </div>
                 <div class="form-group">
                   <label>Description</label>
