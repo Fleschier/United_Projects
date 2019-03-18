@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+
+    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../static/js/input.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>中奖名单</title>
+</head>
+<body style="background-image: url('../static/img/background.jpg'); background-size: cover">
+    <div>
+        <p><span>一等奖{{first}}个,获奖者: {{res1}} </br></span></p>
+        <p><span>二等奖{{second}}个,获奖者: {{res2}} </br></span></p>
+        <p><span>三等奖{{third}}个,获奖者: {{res3}} </br></span></p>
+        <p><input type="BUTTON" value="确定" id="exit" /></p>
+    </div>
+</body>
+
+<footer>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $("#exit").click(function(){
+                window.close()
+            })
+        })
+    </script>
+</footer>

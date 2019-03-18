@@ -1,0 +1,27 @@
+
+@font-face {
+    font-family: 'fontnameRegular';
+    src: url('../fonts/fontname.ttf');
+} 
+
+* {
+    font-family: fontnameRegular !important;
+    font-weight: bold !important;
+}
+.main-body{
+    background-image: url(../images/bg.jpg);
+    background-repeat: no-repeat;		
+    background-attachment: fixed;
+    /* background-size 这条属性非常重要,cover表示让图片适应页面的大小,否则可能会图片显示不全等 */
+    background-size: cover;
+}
+.main-div{
+    /* visibility: hidden; */
+    width: 100%;
+    height:700px;
+    font-size: 4em;
+    vertical-align: auto;
+    /* display设置为inline之后文字就可以居中了 */
+    display: inline;
+    text-align: center;
+}

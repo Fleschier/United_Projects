@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<head>
+
+    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../static/js/input.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>录入信息</title>
+</head>
+<body style="background-image: url('../static/img/background.jpg'); background-size: cover">
+    <div>
+        <h2>输入抽奖信息</h2>
+        <!-- action="/"是为了将数据交给另一个网页处理,处理的网页见url.py,即交给ResultHandler处理 -->
+        <form method="POST" action="/result.html">
+            <p><span>一等奖人数:  </span><input type="text" id="first"/></p>
+            <p><span>二等奖人数:  </span><input type="text" id="second"/></p>
+            <p><span>三等奖人数:  </span><input type="text" id="third"/></p>
+            <p><span>参与人员名单(空格间隔):  </span></p>
+            <p><input type="text" id="names"  style="width:400px; height:200px;"/></p>
+            <p><input type="BUTTON" value="提交" id="input" /></p>
+        </form>
+    </div>
+</body>

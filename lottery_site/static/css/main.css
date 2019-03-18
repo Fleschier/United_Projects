@@ -1,0 +1,55 @@
+
+@font-face {
+    font-family: 'fontnameRegular';
+    src: url('../fonts/fontname.ttf');
+} 
+* {
+    font-family: fontnameRegular !important;
+    font-weight: bold !important;
+}
+.head{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20;
+}
+#button{
+background:url(../img/button.svg) no-repeat ;
+width:100%;
+height:100px;
+border:10px;
+cursor:pointer;
+}
+#button1{
+background:url(../img/button.svg) no-repeat ;
+width:100%;
+height:100px;
+border:10px;
+cursor:pointer;
+}
+.button-style{
+    font-size: 3.5em; 
+    font-family: 'Arial','Microsoft YaHei','黑体','宋体',sans-serif;
+    font-style: normal;
+    font-weight: bold;
+}
+.main-body{
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;		
+    background-attachment: fixed;
+    /* background-size 这条属性非常重要,cover表示让图片适应页面的大小,否则可能会图片显示不全等 */
+    background-size: cover;
+}
+.main-div{
+    /* visibility: hidden; */
+    width: 100%;
+    height:700px;
+    font-size: 4em;
+    vertical-align: auto;
+    /* display设置为inline之后文字就可以居中了 */
+    display: inline;
+    text-align: center;
+    /* background-image: url("../img/background.jpg"); */
+}
+.void{
+    visibility: hidden;
+    height:200px;
+}

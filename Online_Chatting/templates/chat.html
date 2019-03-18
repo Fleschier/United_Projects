@@ -1,0 +1,78 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/chat.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/main.css')}}">
+
+
+  </head>
+
+  <body style="padding-top:100px" class="main-body" >
+
+    <div style="display:inline-block"> <h4> Current Room:&nbsp;</h4></div>
+    <div id="parameter_room" style="display:inline-block">{{roomName}}</div>
+    <br>
+    <div style="display:inline-block"> <h4> Current User:&nbsp;</h4></div>
+    <div id="parameter_user" style="display:inline-block">{{userName}}</div>
+
+    <header class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a href="/quitroom?roomName={{roomName}}" class="navbar-brand "><strong>WebChat HomePage</strong></a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+          <ul class="nav nav-pills navbar-right">
+            <li>
+              <a href="/quitroom?roomName={{roomName}}&userName={{userName}}">Quit ChatRoom</a>
+            </li>
+            <!-- <li id="showusername">
+            </li> -->
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <!-- end_header -->
+
+      <div class="clearfix"></div>
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-9">
+            <!-- <div id="loginbox">
+              <h3 class="form-signin-heading">输入你的昵称：</h3>
+              <input id="username" name="username" class="form-control" placeholder="昵称：">
+              <div class="loginbox">
+               <button class="btn btn-lg btn-primary btn-block" onclick="usernameSubmit();">登录</button>  
+              </div>
+            </div> -->
+            <div id="chatlog"style="display:block;">
+            <div id="chatbox" class="chatbox"></div>
+            <div class="input-group col-lg-12 "  style="padding-top:20px;">
+              <input type="text" id="message" class="form-control" placeholder="Your message">
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type="button" onclick="sendMessage()">Send</button>
+              </span>
+            </div><!-- /input-group -->
+            </div>
+          </div><!-- end mainpage -->
+          <div id="userlist" class="col-lg-3">
+
+          </div>
+        </div><!-- end row -->
+      </div><!-- /.container -->
+
+ 
+
+
+      <!-- 养成好习惯,将脚本引入放在最后,否则有时候通过id获取的时候会因为文档没有加载而失败 -->
+      <script src="{{static_url('js/jquery-2.2.3.min.js')}}"></script>
+      <script src="{{static_url('js/bootstrap.min.js')}}"></script>
+      <script src="{{static_url('js/chat.js')}}"></script>
+  </body>
+</html>

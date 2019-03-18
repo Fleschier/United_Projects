@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+ <title>Online Chatting</title>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/chat.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{static_url('css/main.css')}}">
+  </head>
+
+  <body class="main-body">
+    <header class="navbar navbar-default navbar-fixed-top bs-docs-nav" role="banner">
+      <div class="container">
+        <div class="navbar-header">
+          <h3><strong>Online Chatting</strong><h3>
+        </div>
+      </div>
+    </header>
+
+    <!-- 在线情况 -->
+    <div style=" padding-bottom: 20px;">
+      <ul>
+        <li>
+          <h3> current Online: {{currentNum}}</h3>
+          <div>
+            {% for user_name in userNames %}
+            <h3>{{escape(user_name)}}</h3>
+            {% end %}
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <form class="form-inline my-2 my-lg-0" style="padding-bottom:30px" action="/logout" method="post">
+      <!-- 创建聊天室 -->
+      <button type="button" class="btn btn-lg btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+        Create Room
+      </button>
+      <!-- 登出 -->
+      <button type="submit" class="btn btn-lg btn-primary">
+        Logout ( UserID: {{ escape(name) }} )
+      </button>
+    </form>
+  
+    <!-- 所有聊天室 -->
+    {% for item in currentRooms.items() %}
+    <div class="jumbotron" style="width:60%; padding-left: 20px; border-radius: 20px;">
+      <h2 class="display-4"><strong>Room Name: {{ item[0] }}</strong></h2>
+      <p class="lead">Description: {{ item[1]["description"] }}</p>
+      <hr class="my-4">
+      <p>Creater: {{ item[1]["creater"] }}</p>
+      <p>Members: {% for m in item[1]["members"] %} {{ m }} &nbsp; {% end %}</p>
+      <!-- {% if name not in item[1]["members"] %} -->
+        <a class="btn btn-lg btn-primary" href="/rooms?roomName={{item[0]}}&userName={{name}}" role="button">Join Room</a>
+
+       
+      <!-- {% else %}
+        <a class="btn btn-lg btn-primary" href="/rooms?roomName={{item[0]}}" role="button">Join Room</a>
+        
+      {% end %} -->
+      {% if name == item[1]["creater"] %}
+        <a class="btn btn-danger btn-lg" href="/deleteroom?roomName={{item[0]}}" role="button">Delete Room</a>
+      {% end %}
+    </div>
+    {% end %}
+
+    <!-- 添加聊天室 -->
+    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Create Room</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              
+            
+              <form id="createRoomForm" action="/createroom" method="post">
+                <div class="form-group">
+                  <label >Room Name</label>
+                  <input type="text" class="form-control" id="roomName"  name="roomName" placeholder="Enter room name">
+                  <!-- <small id="emailHelp" class="form-text text-muted">请使用唯一的名称，和别的聊天室重名将会覆盖</small> -->
+                </div>
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" class="form-control" id="description" name="description" placeholder="Enter description">
+                 </div>
+              </form>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="document.getElementById('createRoomForm').submit();">Save changes</button>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  </body>
+
+  <footer>
+     <!-- jquery的引入必须放在所有脚本引入之前 -->
+     <script src="../static/js/jquery-2.2.3.min.js"></script>
+     <script src="{{static_url('js/bootstrap.min.js')}}"></script>
+  </footer>
+</html>
