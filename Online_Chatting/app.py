@@ -185,7 +185,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
             self.write_message(json.dumps({
                 'type': 'sys',
                 'userName': 'SYSTEM',
-                'message': 'Above is the history record'
+                'message': 'Above is the history record (System Message)'
             }))
         
 
@@ -198,7 +198,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
         self.write_message(json.dumps({
             'type': 'sys',
             'userName': 'SYSTEM',
-            'message': 'Welcome to Chat Room!',
+            'message': 'Welcome to Chat Room! (System Message)',
             }))
         
         # 更新房间号
@@ -210,7 +210,7 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
         self.sendToAllInside({
             'type': 'sys',
             'userName': 'SYSTEM',
-            'message': self.userName + ' has left the room'
+            'message': self.userName + ' has left the room (System Message)'
             })
         self.sendToAllInside(updatelist(self.currentRoomName))
 

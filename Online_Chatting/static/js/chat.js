@@ -43,8 +43,8 @@ function createChatEntry(userName, message) {
   
   if (userName == "SYSTEM") {
     var dom_uname = document.createElement("span");
-    dom_uname.setAttribute("class","chat_userName"); 
-    dom_uname.innerHTML = userName + ": ";
+    // dom_uname.setAttribute("class","chat_userName"); 
+    // dom_uname.innerHTML = userName + ": ";
     entry.appendChild(dom_uname);
     var sys_msg = document.createElement("span");
     sys_msg.setAttribute("class","sys_message"); 
