@@ -14,6 +14,6 @@ from handlers.result import ResultHandler
 
 url = [
     (r'/', IndexHandler),
-    (r'/input.html', InputHandler),
-    (r'/result.html', ResultHandler),
+    (r'/input', InputHandler),
+    (r'/result', ResultHandler),
 ]

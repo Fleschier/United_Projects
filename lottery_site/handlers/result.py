@@ -3,9 +3,10 @@ import methods.Util as Util
 
 class ResultHandler(tornado.web.RequestHandler):
     def get(self):
-    #     # username = self.get_argument("user")
-    #     # user_infos = mrd.select_table(table="users",column="*",condition="username",value=username)
-    #     self.render("result.html")
+
+        if not self.get_cookie("first_1"):
+            self.redirect("/")
+
         first_num = eval(self.get_cookie("first_1"))
         second_num = eval(self.get_cookie("second_1"))
         thrid_num = eval(self.get_cookie("third_1"))
@@ -21,6 +22,3 @@ class ResultHandler(tornado.web.RequestHandler):
 
         print("获奖列表",res)
         self.render("result.html", first=first_num,second=second_num,third=thrid_num,res1=" ".join(res[:first_num]), res2=" ".join(res[first_num:first_num+second_num]),res3=" ".join(res[first_num+second_num:]) )
-
-    # def post(self):
-        

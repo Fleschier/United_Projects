@@ -14,12 +14,12 @@ $(document).ready(function(){
 
         $.ajax({
             type:"post",
-            url:"/input.html",
+            url:"/input",
             data:values,
             cache:false,
             success:function(data){
                 alert(data);
-                window.close();
+                history.back(-1);
             },
             error:function(){
                 alert("error!");

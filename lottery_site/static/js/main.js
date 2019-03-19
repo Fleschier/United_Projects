@@ -1,15 +1,15 @@
 $(document).ready(function(){
-  $("#button").click(function(){
-    if(document.cookie){
-      window.open("result.html")
-    }
-    else{
-      alert("请先输入数据!")
-    }
+  $("#first_button").click(function(){
+    document.getElementById("first_button").style.display = "none";
+    document.getElementById("first_info").style.display = "block";
   })
-
-  $("#button1").click(function(){
-    window.open("input.html")
+  $("#second_button").click(function(){
+    document.getElementById("second_button").style.display = "none";
+    document.getElementById("second_info").style.display = "block";
+  })
+  $("#third_button").click(function(){
+    document.getElementById("third_button").style.display = "none";
+    document.getElementById("third_info").style.display = "block";
   })
 })
 

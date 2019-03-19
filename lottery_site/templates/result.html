@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
 
-    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="../static/js/input.js"></script>
+    <link rel="stylesheet" href="{{static_url('css/main.css')}}">
+    <link rel="stylesheet" href="{{static_url('css/bootstrap.min.css')}}">
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,19 +11,31 @@
 </head>
 <body style="background-image: url('../static/img/background.jpg'); background-size: cover">
     <div>
-        <p><span>一等奖{{first}}个,获奖者: {{res1}} </br></span></p>
-        <p><span>二等奖{{second}}个,获奖者: {{res2}} </br></span></p>
-        <p><span>三等奖{{third}}个,获奖者: {{res3}} </br></span></p>
-        <p><input type="BUTTON" value="确定" id="exit" /></p>
+        <div id="first_info" style="display:none" class="padding-style">
+            <h2>一等奖{{first}}个,获奖者: {{res1}} </br></h2>
+        </div>
+        <div  style="display:block" class="padding-style">
+            <button type="button" class="btn btn-lg btn-info" id="first_button"> 抽一等奖 </button>
+        </div>
+        <div id="second_info" style="display:none" class="padding-style">
+            <h2>二等奖{{second}}个,获奖者: {{res2}} </br></h2>
+        </div>
+        <div  style="display:block" class="padding-style">
+            <button type="button" class="btn btn-lg btn-info" id="second_button"> 抽二等奖 </button>
+        </div>
+        <div id="third_info" style="display:none" class="padding-style">
+            <h2>三等奖{{third}}个,获奖者: {{res3}} </br></h2>
+        </div>
+        <div  style="display:block" class="padding-style">
+            <button type="button" class="btn btn-lg btn-info" id="third_button"> 抽三等奖 </button>
+        </div>
+        <div class="padding-style">
+            <a href="/" role="button" class="btn btn-lg btn-success" >确定</a>
+        </div>
     </div>
 </body>
 
 <footer>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $("#exit").click(function(){
-                window.close()
-            })
-        })
-    </script>
+    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../static/js/main.js"></script>
 </footer>

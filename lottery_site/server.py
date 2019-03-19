@@ -21,8 +21,6 @@ def main():
     print("Quit the server with Control-C")
 
     tornado.ioloop.IOLoop.instance().start()
-    # tornado.ioloop.IOLoop.current().start()
-
 if __name__ == "__main__":
     main()
 

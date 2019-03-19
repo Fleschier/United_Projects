@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <head>
 
-    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
-    <script type="text/javascript" src="../static/js/input.js"></script>
+    <link rel="stylesheet" href="{{static_url('css/main.css')}}">
+    <link rel="stylesheet" href="{{static_url('css/bootstrap.min.css')}}">
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -18,7 +19,12 @@
             <p><span>三等奖人数:  </span><input type="text" id="third"/></p>
             <p><span>参与人员名单(空格间隔):  </span></p>
             <p><input type="text" id="names"  style="width:400px; height:200px;"/></p>
-            <p><input type="BUTTON" value="提交" id="input" /></p>
+            <button type="button" class="btn btn-lg btn-success" id="input" >提交</button>
         </form>
     </div>
 </body>
+
+<footer>
+    <script type="text/javascript" src="../static/js/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../static/js/input.js"></script>
+</footer>
