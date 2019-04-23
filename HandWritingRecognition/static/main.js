@@ -1,129 +1,79 @@
-var canvas=document.getElementById('canvas');
-var context=canvas.getContext('2d');
 
-var using=false;
-var lastPoint={
-    x:undefined,
-    y:undefined
-}
+var ws;
 
-/*画板逻辑 */
+$(window).onload = openWS();
 
-autoSetSize(canvas);
+$(document).ready(function(){
 
-listenToUser(canvas);
+    var context = document.getElementById("canvas").getContext('2d');
 
-//记录是否在画
-var eraserEnabled=false;
+    $("#submit").click(function(){
+        var tmp_canvas = document.createElement("canvas");
+        tmp_canvas.width = "28";
+        tmp_canvas.height = "28";
+        document.body.appendChild(tmp_canvas);
+        var context = tmp_canvas.getContext('2d');
+        // 原canvas左上角坐标
+        var sourceX =  0;
+        var sourceY =  0;
+        //原canvas宽度与高度
+        var sourceWidth = canvas.width;
+        var sourceHeight = canvas.height;
+        //新的canvas
+        var destWidth = 28;
+        var destHeight = 28;
+        var destX = 0;
+        var destY = 0;
+        //缩放
+        context.drawImage(canvas, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+        //注: var imgData=context.getImageData(x,y,width,height); x:开始复制的左上角位置的 x 坐标。y:开始复制的左上角位置的 y 坐标。
+        var myImageData = context.getImageData(0, 0, 28, 28);
+        sendIMG(myImageData.data);
+    })
 
-//drawLine
-function drawLine(x1,y1,x2,y2){
-    context.beginPath();
-    context.moveTo(x1,y1);
-    context.lineTo(x2,y2);
-    context.stroke();
-    context.closePath();  
-  }
+    $("#clear").click(function(){
+        context.clearRect(0,0,canvas.clientWidth,canvas.clientHeight);
+    })
+})
 
-//drawCir
-function drawCir(x,y){
-context.beginPath()
-context.arc(x,y,0.1,0,Math.PI*2);
-context.fill();
-}
+function openWS(){
+    ws = new WebSocket("ws://127.0.0.1:8888/ws");
+    //ws = new WebSocket("ws://10.40.45.137:8888/ws")
 
-//重置canvas画板宽高
-function setCanvasSize(){
-    var pageWidth=document.documentElement.clientWidth;
-    var pageHeight=document.documentElement.clientHeight;
-   
-    canvas.width = pageWidth;
-    canvas.height = pageHeight;
-
- }
-
-//自动设置canvas画板宽高
-function autoSetSize(){
-    setCanvasSize();    
-    window.onresize =function(){
-        setCanvasSize();
-    }    
-}
-function preventBehavior(e) {
-    e.preventDefault()
-}
-    
-document.addEventListener("touchmove", preventBehavior, false)
-    
-
-function listenToUser(){
-    //特性检测
-    if(document.body.ontouchstart!== undefined ){                    
-        //是触屏设备
-        canvas.ontouchstart =function(aaa){
-            var x=aaa.touches[0].clientX;
-            var y=aaa.touches[0].clientY;
-            using=true;
-            lastPoint={x:x,y:y};
-            if(eraserEnabled){
-                context.clearRect(x-10,y-10,20,20);
-            }else{
-                drawCir(x,y);
-            }
-        }
-        //
-        canvas.ontouchmove = function(aaa){
-            var x=aaa.touches[0].clientX;
-            var y=aaa.touches[0].clientY;
-            var newPoint={x:x,y:y}
-            if(using){
-                if(eraserEnabled){
-                    context.clearRect(x-10,y-10,20,20);
-              }else{
-                    drawCir(x,y);
-                    drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
-                    lastPoint=newPoint;      
-                }
-            }
-        }
-        canvas.ontouchend = function(aaa){
-            using=false;
-        }
-
-    }else{
-        //不是触屏设备
-        canvas.onmousedown=function(aaa){
-            var x=aaa.clientX;
-            var y=aaa.clientY;
-            using=true;
-            lastPoint={x:x,y:y};
-            if(eraserEnabled){
-                context.clearRect(x-10,y-10,20,20);
-            }else{
-                drawCir(x,y);
-            }
-        }
-        
-        //鼠标移动监听
-        canvas.onmousemove=function(aaa){
-            var x=aaa.clientX;
-            var y=aaa.clientY;
-            var newPoint={x:x,y:y}
-            if(using){
-                if(eraserEnabled){
-                    context.clearRect(x-10,y-10,20,20);
-              }else{
-                    drawCir(x,y);
-                    drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
-                    lastPoint=newPoint;      
-                }
-            }
-        }       
-        //鼠标松开监听
-        canvas.onmouseup=function(aaa){
-            using=false;
-        }
+    ws.onopen = function(e){
+        console.log("Websoeckt Connected!");
+    }
+    ws.onmessage = function(e){
+        var data = JSON.parse(e.data);
+        alert("识别结果为: "+data);
+    }
+    ws.onclose = function(e){
+        console.log("Connection closed!")
     }
 }
 
 
+function sendIMG(img){
+    var dat = {image:img.toString()}
+    sendMsg(JSON.stringify(dat))
+}
+
+//解决Tornado WebSockets - InvalidStateError “Still in CONNECTING State”
+function sendMsg(msg) {
+    waitForSocketConnection(ws, function() {
+        ws.send(msg);
+    });
+};
+function waitForSocketConnection(socket, callback){
+    setTimeout(
+        function(){
+            if (socket.readyState === 1) {
+                if(callback !== undefined){
+                    callback();
+                }
+                return;
+            } else {
+                waitForSocketConnection(socket,callback);
+            }
+        }, 50);
+};

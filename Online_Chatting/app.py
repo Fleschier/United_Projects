@@ -188,7 +188,6 @@ class ChatHandler(tornado.websocket.WebSocketHandler):
                 'message': 'Above is the history record (System Message)'
             }))
         
-
     def sendToAllInside(self, message):     # 参数为dict格式
         for client in record["clients_hst"]["handlers"]:
             if client.userName in record["rooms"][self.currentRoomName]["members"]:

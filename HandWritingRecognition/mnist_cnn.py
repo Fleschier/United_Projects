@@ -2,6 +2,7 @@ import tensorflow as tf
 INPUT_NODE = 784
 OUTPUT_NODE = 10
 IMAGE_SIZE = 28
+#IMAGE_SIZE = 32
 NUM_CHANNEL = 1
 NUM_LABEL = 10
 
@@ -17,24 +18,25 @@ CONV2_SIZE = 5
 FC_SIZE = 512
 # LAYER1_NODE = 500
 
-def interence(input_tensor,train,regularizer):
-    with tf.variable_scope('layer1-conv'):
-        w = tf.get_variable('w', [CONV1_SIZE,CONV1_SIZE,NUM_CHANNEL,CONV1_DEEP],
-                            initializer=tf.truncated_normal_initializer(stddev=0.1))
-        b = tf.get_variable('b',shape=[CONV1_DEEP],initializer=tf.constant_initializer(0.0))
+def interence(input_tensor, train, regularizer):
+    with tf.variable_scope('layer1-conv',reuse=tf.AUTO_REUSE): # 在每一个varScope设置reuse来重复使用变量
+        w = tf.get_variable('w', [CONV1_SIZE, CONV1_SIZE, NUM_CHANNEL, CONV1_DEEP],
+                            initializer=tf.truncated_normal_initializer(stddev=0.1)
+                            )
+        b = tf.get_variable('b', shape=[CONV1_DEEP], initializer=tf.constant_initializer(0.0))
         # filter shape is :[filter_height, filter_width, in_channels, out_channels]
         # input tensor shape is:[batch, in_height, in_width, in_channels]
         # `strides = [1, stride, stride, 1]`.
         # return [batch, height, width, channels].
-    #卷积运算    
+    # 卷积运算
         conv1 = tf.nn.conv2d(input_tensor, w, strides=[1, 1, 1, 1], padding='SAME')
-    #单侧线性的激活函数
-        relu1 = tf.nn.relu(tf.nn.bias_add(conv1,b))
-    #最大化池化
-    with tf.variable_scope('layer2-pool'):
-        pool1 = tf.nn.max_pool(relu1,ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
+    # 单侧线性的激活函数
+        relu1 = tf.nn.relu(tf.nn.bias_add(conv1, b))
+    # 最大化池化
+    with tf.variable_scope('layer2-pool',reuse=tf.AUTO_REUSE): 
+        pool1 = tf.nn.max_pool(relu1, ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
 
-    with tf.variable_scope('layer3-conv'):
+    with tf.variable_scope('layer3-conv',reuse=tf.AUTO_REUSE):
         w = tf.get_variable('w', [CONV2_SIZE, CONV2_SIZE, CONV1_DEEP, CONV2_DEEP],
                             initializer=tf.truncated_normal_initializer(stddev=0.1))
         b = tf.get_variable('b',shape=[CONV2_DEEP],initializer=tf.constant_initializer(0.0))
@@ -42,7 +44,7 @@ def interence(input_tensor,train,regularizer):
         conv2 = tf.nn.conv2d(pool1, w, strides=[1, 1, 1, 1], padding='SAME')
         relu2 = tf.nn.relu(tf.nn.bias_add(conv2, b))
 
-    with tf.variable_scope('layer4-pool'):
+    with tf.variable_scope('layer4-pool',reuse=tf.AUTO_REUSE):
         # pool2 size is [batch_size,7,7,64]
         pool2 = tf.nn.max_pool(relu2,ksize=[1,2,2,1],strides=[1,2,2,1],padding='SAME')
 
@@ -53,7 +55,7 @@ def interence(input_tensor,train,regularizer):
     reshaped = tf.reshape(pool2,[-1,nodes])
     # reshaped = tf.reshape(pool2,[BATCH_SIZE,-1])
     # print(reshaped.get_shape())
-    with tf.variable_scope('layer5-fc1'):
+    with tf.variable_scope('layer5-fc1',reuse=tf.AUTO_REUSE):
         fc1_w = tf.get_variable('w',shape=[nodes,FC_SIZE],initializer=tf.truncated_normal_initializer(stddev=0.1))
         try:
             # 只有全连接层的权重需要加入正则化
@@ -68,7 +70,7 @@ def interence(input_tensor,train,regularizer):
         if train:
             fc1 = tf.nn.dropout(fc1,0.5)
 
-    with tf.variable_scope('layer6-fc2'):
+    with tf.variable_scope('layer6-fc2',reuse=tf.AUTO_REUSE):
         fc2_w = tf.get_variable('w', shape=[FC_SIZE, NUM_LABEL], initializer=tf.truncated_normal_initializer(stddev=0.1))
         try:
             if regularizer != None:

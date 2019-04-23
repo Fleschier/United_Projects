@@ -1,0 +1,6 @@
+model_checkpoint_path: "model_step_270000-270001"
+all_model_checkpoint_paths: "model_step_150000-150001"
+all_model_checkpoint_paths: "model_step_180000-180001"
+all_model_checkpoint_paths: "model_step_210000-210001"
+all_model_checkpoint_paths: "model_step_240000-240001"
+all_model_checkpoint_paths: "model_step_270000-270001"
